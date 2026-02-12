@@ -23,6 +23,7 @@ Version 0.3:
 - Adding image for answer
 - Support multiple images per question
 - Support both text and image per answer
+- Provide convert tool `option_cvt.py` (convert json from v0.2 -> v0.3+)
 
 ## Environment Setup
 
@@ -40,4 +41,10 @@ python main.py
 
 ```
 python main.py --json_file "YOUR_PATH_TO_JSON_QUESTION_FILE" --folder_save "YOUR_SAVE_FOLDER_NAME_AND_ZIP"
+```
+
+## Convert json v0.2 -> v0.3+
+
+```
+python option_cvt.py
 ```
