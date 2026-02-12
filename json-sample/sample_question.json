@@ -1,0 +1,25 @@
+{
+    "title": "Sample Question",
+    "bank": [
+        {
+            "question": "<p>What is the capital of France?</p>",
+            "options": [
+                "Paris",
+                "London",
+                "Berlin",
+                "Madrid"
+            ],
+            "answer": 0
+        },
+        {
+            "question": "<p>Consider the following pseudo-code:</p><pre>procedure process(head):<br>    prev = null<br>    current = head<br>    while current is not null:<br>        next = current.next<br>        current.next = prev<br>        prev = current<br>        current = next<br>    return prev</pre><p>What is the purpose of this function?</p>",
+            "options": [
+                "Reverses a singly linked list",
+                "Deletes a node from a linked list",
+                "Finds the middle element of a linked list",
+                "Detects a cycle in a linked list"
+            ],
+            "answer": 0
+        }
+    ]
+}
