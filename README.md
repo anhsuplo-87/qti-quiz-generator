@@ -20,17 +20,17 @@ Version 0.2:
 ## Environment Setup
 
 ```
-    pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 ## Default sample_question.json
 
 ```
-    python main.py
+python main.py
 ```
 
 ## Run with your json question file
 
 ```
-    python main.py --json_file "YOUR_PATH_TO_JSON_QUESTION_FILE" --folder_save "YOUR_SAVE_FOLDER_NAME_AND_ZIP"
+python main.py --json_file "YOUR_PATH_TO_JSON_QUESTION_FILE" --folder_save "YOUR_SAVE_FOLDER_NAME_AND_ZIP"
 ```
