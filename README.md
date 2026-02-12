@@ -25,6 +25,10 @@ Version 0.3:
 - Support both text and image per answer
 - Provide convert tool `option_cvt.py` (convert json from v0.2 -> v0.3+)
 
+Version 0.4:
+
+-
+
 ## Environment Setup
 
 ```
