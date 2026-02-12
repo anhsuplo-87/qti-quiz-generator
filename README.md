@@ -67,10 +67,33 @@ src/
 
 ## Version History
 
-### Version 0.1:
+### Version 0.0 — Foundation
+
+Initial prototype developed by **Du Pham Tien**.  
+This version laid the groundwork for the JSON → QTI conversion concept.
+
+- Core idea and initial implementation
+- Basic JSON → QTI XML transformation
+- Early structural design
+
+Original repository (starter version): [QTI Convert](https://github.com/dupham2206/qti_convert)
+
+> This version is acknowledged as the foundational work of the project.
+
+### Version 0.1 - Starter Release
 
 - Basic full-text question
 - Support `multiple_choice_question`
+
+### Project Maintenance & Development
+
+Starting from **Version 0.2**, the project has been actively maintained and expanded by **Ba Luong**, focusing on:
+
+- Extending feature support
+- Improving architecture and modularity
+- Adding validation layers
+- Enhancing CLI usability
+- Improving long-term maintainability and extensibility
 
 ### Version 0.2:
 
