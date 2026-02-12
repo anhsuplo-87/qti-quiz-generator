@@ -3,18 +3,23 @@
     "bank": [
         {
             "question": "<p>Observe the following image and choose the correct answer.</p>",
-            "image": "triangle.png",
+            "images": [
+                "triangle.png",
+                "circle.png"
+            ],
             "options": [
-                "Right triangle",
-                "Isosceles triangle",
-                "Equilateral triangle",
-                "Obtuse triangle"
+                "Right triangle and Circle",
+                "Isosceles triangle and Ellipse",
+                "Equilateral triangle and Circle",
+                "Obtuse triangle and Ellipse"
             ],
             "answer": 2
         },
         {
             "question": "<p>Examine the chart below and identify the main trend.</p>",
-            "image": "chart1.png",
+            "images": [
+                "chart1.png"
+            ],
             "options": [
                 "Increasing",
                 "Decreasing",

@@ -17,6 +17,10 @@ Version 0.2:
 - Adding image for question (`sample-image`)
 - Support maximum 1 image per question
 
+Version 0.3:
+
+-
+
 ## Environment Setup
 
 ```

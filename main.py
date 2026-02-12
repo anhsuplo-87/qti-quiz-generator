@@ -24,7 +24,7 @@ def add_question_to_xml_dict(xml_dict, json_data):
     xml_dict['questestinterop']['assessment']['section']['item'] = []
     xml_dict['questestinterop']['assessment']['@title'] = json_data['title']
 
-    image_files = set()
+    all_image_files = set()
 
     for i, json_item in enumerate(json_data['bank']):
         xml_item = copy.deepcopy(sample_item)
@@ -43,13 +43,19 @@ def add_question_to_xml_dict(xml_dict, json_data):
         }
 
         # image check
-        if json_item.get("image"):
-            image_name = json_item["image"]
+        images = json_item.get("images", [])
+        image_files = set()
 
-            html_content = f"""
-            {json_item['question']}
-            <p><img src="$IMS-CC-FILEBASE$/{image_name}" /></p>
-            """
+        if images:
+            html_parts = [f"{json_item['question']}"]
+
+            for img in images:
+                html_parts.append(
+                    f'<p><img src="$IMS-CC-FILEBASE$/{img}" /></p>'
+                )
+                image_files.add(img)
+
+            html_content = "\n".join(html_parts)
 
             material_block = {
                 'mattext': {
@@ -58,7 +64,7 @@ def add_question_to_xml_dict(xml_dict, json_data):
                 }
             }
 
-            image_files.add(image_name)
+            all_image_files.update(image_files)
 
         else:
             material_block = {
@@ -92,7 +98,7 @@ def add_question_to_xml_dict(xml_dict, json_data):
         xml_dict['questestinterop']['assessment']['section']['item'].append(
             xml_item)
 
-    return xml_dict, image_files
+    return xml_dict, all_image_files
 
 
 def update_manifest_with_images(imsmanifest_dict, image_files):
