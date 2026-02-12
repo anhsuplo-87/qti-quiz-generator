@@ -51,30 +51,29 @@ def add_question_to_xml_dict(xml_dict, json_data):
 
             for img in images:
                 html_parts.append(
-                    f'<p><img src="$IMS-CC-FILEBASE$/{img}" /></p>'
+                    f'<p style="text-align:center;">'
+                    f'<img src="$IMS-CC-FILEBASE$/{img}" style="max-width:90%;" />'
+                    f'</p>'
                 )
                 image_files.add(img)
 
             html_content = "\n".join(html_parts)
 
-            material_block = {
-                'mattext': {
-                    '@texttype': 'text/html',
-                    '#text': f"<![CDATA[{html_content}]]>"
-                }
-            }
-
             all_image_files.update(image_files)
 
         else:
-            material_block = {
-                'mattext': {
-                    '@texttype': 'text/plain',
-                    '#text': json_item['question']
-                }
+            html_content = json_item['question']
+
+        material_block = {
+            'mattext': {
+                '@texttype': 'text/html',
+                # '#text': f"<![CDATA[{html_content}]]>"
+                '#text': html_content
             }
+        }
 
         xml_item['presentation']['material'] = material_block
+
         sample_response = xml_item['presentation']['response_lid']['render_choice']['response_label'][0]
 
         xml_item['presentation']['response_lid']['render_choice']['response_label'] = [

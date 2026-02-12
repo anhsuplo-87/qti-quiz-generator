@@ -19,7 +19,8 @@ Version 0.2:
 
 Version 0.3:
 
--
+- Change "image" to "images"
+- Support multiple images per question
 
 ## Environment Setup
 
