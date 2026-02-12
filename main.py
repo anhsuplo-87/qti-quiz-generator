@@ -17,6 +17,32 @@ def dict_to_xml_file(xml_dict, xml_file):
         file.write(xml_content)
 
 
+def build_option_material(option, all_image_files):
+    text = option.get("text", "")
+    images = option.get("images", [])
+
+    html_parts = [f'<div>{text}</div>']
+
+    for img in images:
+        html_parts.append(
+            f'<p style="text-align:center;">'
+            f'<img src="$IMS-CC-FILEBASE$/{img}" style="max-width:90%;" />'
+            f'</p>'
+        )
+        all_image_files.add(img)
+
+    html_content = "\n".join(html_parts)
+
+    return {
+        'material': {
+            'mattext': {
+                '@texttype': 'text/html',
+                '#text': html_content
+            }
+        }
+    }
+
+
 def add_question_to_xml_dict(xml_dict, json_data):
     sample_item = xml_dict['questestinterop']['assessment']['section']['item'][0]
 
@@ -24,7 +50,7 @@ def add_question_to_xml_dict(xml_dict, json_data):
     xml_dict['questestinterop']['assessment']['section']['item'] = []
     xml_dict['questestinterop']['assessment']['@title'] = json_data['title']
 
-    image_files = set()
+    all_image_files = set()
 
     for i, json_item in enumerate(json_data['bank']):
         xml_item = copy.deepcopy(sample_item)
@@ -43,32 +69,37 @@ def add_question_to_xml_dict(xml_dict, json_data):
         }
 
         # image check
-        if json_item.get("image"):
-            image_name = json_item["image"]
+        images = json_item.get("images", [])
+        image_files = set()
 
-            html_content = f"""
-            {json_item['question']}
-            <p><img src="$IMS-CC-FILEBASE$/{image_name}" /></p>
-            """
+        if images:
+            html_parts = [f"{json_item['question']}"]
 
-            material_block = {
-                'mattext': {
-                    '@texttype': 'text/html',
-                    '#text': f"<![CDATA[{html_content}]]>"
-                }
-            }
+            for img in images:
+                html_parts.append(
+                    f'<p style="text-align:center;">'
+                    f'<img src="$IMS-CC-FILEBASE$/{img}" style="max-width:90%;" />'
+                    f'</p>'
+                )
+                image_files.add(img)
 
-            image_files.add(image_name)
+            html_content = "\n".join(html_parts)
+
+            all_image_files.update(image_files)
 
         else:
-            material_block = {
-                'mattext': {
-                    '@texttype': 'text/plain',
-                    '#text': json_item['question']
-                }
+            html_content = json_item['question']
+
+        material_block = {
+            'mattext': {
+                '@texttype': 'text/html',
+                # '#text': f"<![CDATA[{html_content}]]>"
+                '#text': html_content
             }
+        }
 
         xml_item['presentation']['material'] = material_block
+
         sample_response = xml_item['presentation']['response_lid']['render_choice']['response_label'][0]
 
         xml_item['presentation']['response_lid']['render_choice']['response_label'] = [
@@ -77,13 +108,19 @@ def add_question_to_xml_dict(xml_dict, json_data):
         ]
 
         for j, option in enumerate(json_item['options']):
-            xml_item['presentation']['response_lid']['render_choice']['response_label'][j]['@ident'] = str(
-                j)
+            # backward compatible nếu option là string
+            if isinstance(option, str):
+                option = {"text": option, "images": []}
 
-            xml_item['presentation']['response_lid']['render_choice']['response_label'][j]['material']['mattext'] = {
-                '@texttype': 'text/plain',
-                '#text': option
-            }
+            response_label = xml_item['presentation']['response_lid']['render_choice']['response_label'][j]
+
+            # set ident
+            response_label['@ident'] = str(j)
+
+            # build material (HTML + image support)
+            response_label.update(
+                build_option_material(option, all_image_files)
+            )
 
         # answer
         xml_item['resprocessing']['respcondition']['conditionvar']['varequal']['#text'] = str(
@@ -92,7 +129,7 @@ def add_question_to_xml_dict(xml_dict, json_data):
         xml_dict['questestinterop']['assessment']['section']['item'].append(
             xml_item)
 
-    return xml_dict, image_files
+    return xml_dict, all_image_files
 
 
 def update_manifest_with_images(imsmanifest_dict, image_files):
