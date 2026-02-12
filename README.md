@@ -33,6 +33,7 @@ Version 0.4:
 - `main.py` file change into `cli.py`
 - Adding `--verbose` flag for debug purpose
 - Support logging `INFO` and `DEBUG` level
+- Upgrade convert tool `convert.py` (from `option_cvt.py`)
 
 ## Environment Setup
 
